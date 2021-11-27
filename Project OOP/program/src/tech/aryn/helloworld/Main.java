@@ -57,6 +57,60 @@ class Flight{
 
 class Passenger{
 
+    // Address
+
+    private static class Address{
+        private String street;
+        private String city;
+        private String state;
+
+        public void setCity(String city){
+            this.city = city;
+        }
+
+        public void setState(String state){
+            this.state = state;
+        }
+
+        public void setStreet(String street){
+            this.street = street;
+        }
+
+        public void getAddress(){
+            System.out.println("Street: " + street);
+            System.out.println("City: " + city);
+            System.out.println("State: " + state);
+        }
+    }
+    // Contact
+    private static class Contact{
+        private String name;
+        private String email;
+        private int phone;
+
+        public void getContact(String name, int phone, String email){
+            System.out.println("Name: " + this.name);
+            System.out.println("Phone: " + this.phone);
+            System.out.println("Email: " + this.email);
+        }
+
+        public void setName(String name){
+            this.name = name;
+        }
+        public void setPhone(int phone){
+            this.phone = phone;
+        }
+        public void setEmail(String email){
+            this.email = email;
+        }
+        public int getPhone(){
+            return this.phone;
+        }
+        public String getName(){
+            return this.name;
+        }
+    }
+
     private static int idCounter=0;
     Scanner sc = new Scanner(System.in);
 
@@ -69,7 +123,7 @@ class Passenger{
     }
 
     public void ContactObj(int phone, String name, String email){
-        Contact contact = new Contact();
+        Contact contact = new Passenger.Contact();
 
         System.out.println("Please Enter Contact Details: ");
         System.out.println("Name: ");
@@ -83,6 +137,45 @@ class Passenger{
         contact.setPhone(phone);
         contact.setEmail(email);
         contact.getContact(name, phone, email);
+    }
+    public void AddressObject(String street, String city, String state){
+        Address address = new Passenger.Address();// Creating an obeject of the inner class
+
+        System.out.println("Please enter the street : ");
+        street = sc.next();
+        System.out.println("Please enter the city : ");
+        city = sc.next();
+        System.out.println("Please enter the state : ");
+        state = sc.next();
+        address.setCity(street);//Using setter to set various properties
+        address.setState(city);
+        address.setStreet(state);
+        address.getAddress();
+
+        System.out.println("If you want to Book a Tourist Ticket press 1 else press 2 for regular Ticket : ");
+        int k = sc.nextInt();
+        if(k == 1){
+            int max = 12000;
+            int min =300;
+            TouristTicket ob1 = new TouristTicket(123+(int)(Math.random()*(max-min+1)+min),getPassengerCount());// Using random ftn to generate varying PNR number
+            ob1.TicketDetails();
+            System.out.println("Please enter the Hotel Address : ");
+            String l = sc.next();
+            ob1.setHotelAddress(l);
+            System.out.println("Please add 5 Tourist Locations separated by a space : ");
+
+            String str = sc.next();
+            ob1.setTouristLocation(str);
+
+        }else if(k == 2){
+            int max = 50000;
+            int min =14000;
+            RegularTicket ob2 = new RegularTicket(123+(int)(Math.random()*(max-min+1)+min), getPassengerCount()); // Using random ftn to generate varying PNR number
+            ob2.TicketDetails();
+            System.out.println("Please Enter any special Service you need : ");
+            String s = sc.next();
+            ob2.setService(s);
+        }
     }
 }
 
@@ -230,11 +323,11 @@ public class Main {
                     System.out.println("Enter your name: ");
                     String name = ns.next();
                     System.out.println("Enter your phone no: ");
-                    String phone = ns.next();
+                    int phone = ns.nextInt();
                     System.out.println("Enter your email: ");
                     String email = ns.next();
 
-                    new_pass.getContact(name, phone, email);
+                    new_pass.ContactObj(phone, name, email);
 
 
                     // Address Details
@@ -247,13 +340,7 @@ public class Main {
                     System.out.println("Enter your state: ");
                     String state = ns.next();
 
-                    new_add.setStreet(street);
-                    new_add.setCity(city);
-                    new_add.setState(state);
-
-                    System.out.println("Entered Details: ");
-                    new_cont.getContact(name, email, phone);
-                    new_add.getAddress();
+                    new_pass.AddressObject(street, city, state);
 
                     // Ticket Details
 
